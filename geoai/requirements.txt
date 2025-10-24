@@ -1,0 +1,33 @@
+# Web framework
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.5.0
+
+# Machine learning
+torch>=2.2.0,<3.0.0
+numpy==1.24.3
+scikit-learn==1.3.0
+
+# Geospatial processing
+rasterio==1.3.9
+geopandas==1.1.1
+shapely==2.0.2
+pyproj==3.6.1
+rioxarray==0.15.0
+
+# Satellite data access
+pystac-client==0.7.5
+planetary-computer==1.0.0
+xarray==2023.8.0
+
+# Data processing
+requests==2.31.0
+pandas==2.1.3
+
+# Utilities
+python-multipart==0.0.6
+python-dotenv==1.0.0
+
+# Missing critical dependency
+pydantic-settings==2.1.0
+psycopg2==2.9.10

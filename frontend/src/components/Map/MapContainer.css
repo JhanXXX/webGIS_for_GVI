@@ -1,0 +1,366 @@
+/* MapContainer.css */
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.layer-control-panel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.849);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  min-width: 120px;
+}
+
+.layer-control-panel h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.control-group {
+  margin-bottom: 12px;
+}
+
+.control-group:last-child {
+  margin-bottom: 0;
+}
+
+.control-group label {
+  display: flex;
+  flex-direction: row;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+}
+
+.control-group input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.control-group input[type="range"] {
+  width: 100px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+
+
+.loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.732);
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  color: #333;
+  z-index: 1000;
+}
+
+.map-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+/* Debug Info */
+.map-debug-info {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background-color: rgba(255, 255, 255, 0.816);
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  max-width: calc(100% - 16px);
+  z-index: 10;
+}
+
+.debug-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.debug-row:last-child {
+  margin-bottom: 0;
+}
+
+.debug-label {
+  color: #6b7280;
+}
+
+.debug-value {
+  font-weight: 600;
+  color: #111827;
+}
+
+.debug-mono {
+  font-family: monospace;
+}
+
+.debug-divider {
+  padding-top: 4px;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 8px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-dot-loading {
+  background-color: #eab308;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.status-dot-ready {
+  background-color: #10b981;
+}
+
+.status-text {
+  font-weight: 500;
+}
+
+.status-text-loading {
+  color: #a16207;
+}
+
+.status-text-ready {
+  color: #047857;
+}
+
+/* Loading Overlay */
+.map-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(243, 244, 246, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.loading-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 24px 32px;
+  max-width: 300px;
+  margin: 0 16px;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #e5e7eb;
+  border-top-color: #059669;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text-wrapper {
+  text-align: center;
+}
+
+.loading-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.loading-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+
+/* 坐标信息面板 */
+.coord-info-panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 200px;
+}
+
+.coord-info-panel h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.coord-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.coord-label {
+  color: #666;
+  margin-right: 8px;
+}
+
+.coord-value {
+  font-family: monospace;
+  color: #333;
+  font-weight: 500;
+}
+
+.coord-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  line-height: 1;
+}
+
+.coord-close-btn:hover {
+  color: #333;
+}
+
+/* 绘制信息面板 */
+.drawing-info-panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 150px;
+}
+
+.drawing-info-panel h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.drawing-count {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+.drawing-clear-btn {
+  width: 100%;
+  padding: 6px 12px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.drawing-clear-btn:hover {
+  background-color: #dc2626;
+}
+
+/* 清除通知 */
+.clear-notification {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(34, 197, 94, 0.95);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  z-index: 1000;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 响应式 */
+@media (min-width: 640px) {
+  .map-debug-info {
+    bottom: 16px;
+    left: 16px;
+    padding: 12px;
+  }
+  
+  .loading-card {
+    padding: 32px;
+  }
+  
+  .loading-title {
+    font-size: 18px;
+  }
+  
+  .loading-subtitle {
+    font-size: 14px;
+  }
+}
+
+

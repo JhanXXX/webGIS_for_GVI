@@ -1,0 +1,140 @@
+services:
+  # PostgreSQL + PostGIS + PgRouting
+  postgres:
+    image: pgrouting/pgrouting:15-3.5-3.7
+    container_name: gvi-postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-gvi_app}
+      - POSTGRES_USER=${POSTGRES_USER:-gvi_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-gvi_pass}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+      - ./database/data:/app/data:ro
+    networks:
+      - gvi-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gvi_user} -d ${POSTGRES_DB:-gvi_app}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # pgAdmin 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: gvi-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@gvi.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+      - PGADMIN_CONFIG_SERVER_MODE=False 
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./database/pgadmin_servers.json:/pgadmin4/servers.json  
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - gvi-network
+    restart: unless-stopped
+
+  # GeoAI GVI
+  geoai:
+    build: 
+      context: ./geoai
+      dockerfile: Dockerfile
+    container_name: gvi-geoai
+    ports:
+      - "8000:8000" 
+    environment:
+      - MODEL_PATH=/app/models/gvi_estimater.pth
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DEBUG=${DEBUG:-false}
+    volumes:
+      - ./geoai/models:/app/models:ro
+      - ./logs/geoai:/app/logs
+      - ./geoai/app:/app/app:rw
+      - ./geoai/tests:/app/tests:rw
+      - ./cache/geoai:/app/cache:rw
+
+    networks:
+      - gvi-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/api/v1/health', timeout=5)"]
+      interval: 60s
+      timeout: 30s
+      retries: 3
+      start_period: 120s
+
+  
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: gvi-backend
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-gvi_user}:${POSTGRES_PASSWORD:-gvi_pass}@postgres:5432/${POSTGRES_DB:-gvi_app}
+      - GEOAI_URL=http://geoai:8000
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    volumes:
+      - ./logs/backend:/app/logs
+      - ./backend/src:/app/src:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      geoai:
+        condition: service_healthy
+    networks:
+      - gvi-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # React frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: gvi-frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
+      - REACT_APP_MAPBOX_TOKEN=${REACT_APP_MAPBOX_TOKEN}
+      - REACT_APP_DEFAULT_LAT=${REACT_APP_DEFAULT_LAT}
+      - REACT_APP_DEFAULT_LNG=${REACT_APP_DEFAULT_LNG}
+      - REACT_APP_DEFAULT_ZOOM=${REACT_APP_DEFAULT_ZOOM}
+    volumes:
+      - ./frontend/src:/app/src:rw
+      - ./frontend/public:/app/public:rw
+    depends_on:
+      - backend
+    networks:
+      - gvi-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  gvi-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

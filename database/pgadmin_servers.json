@@ -1,0 +1,16 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "GVI Database",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "Password":"gvi_pass",
+      "MaintenanceDB": "gvi_app",
+      "Username": "gvi_user",
+      "PassFile": "/tmp/pgpassfile",
+      "SSLMode": "prefer",
+      "Comment": "GVI Project PostgreSQL Database"
+    }
+  }
+}
