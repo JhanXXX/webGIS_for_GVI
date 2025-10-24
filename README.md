@@ -1,5 +1,5 @@
 ## Note on Model Files
-For security and size considerations, the trained `.pth` model file is not included in this repository.  
+For security and size considerations, the trained `.pth` model file and database backup file `.backup` are not included in this repository.  
 Please contact the author if you need access to the model or wish to reproduce the results.
 
 
@@ -7,6 +7,7 @@ Please contact the author if you need access to the model or wish to reproduce t
 ## An Urban Green View Spatial Database & Green Path Navigator
 AOI: Only in stockholm
 Author: Jinghan Xu [jinghanx@kth.se]
+
 ## project structure
 
 ```
