@@ -1,5 +1,5 @@
 ## Note on Model Files
-For security and size considerations, the trained `.pth` model file, database backup file `.backup`, and `MapBox` credentials are not included in this repository.  
+For security and size considerations, the trained `.pth` model file, database backup file `.backup`, `DATA/` and `MapBox` credentials are not included in this repository.  
 Please contact the author if you need more information.
 
 
