@@ -5,3 +5,7 @@
 **/*.pth
 
 **/__pycache__/
+
+**/*.backup
+
+DATA/shp/
